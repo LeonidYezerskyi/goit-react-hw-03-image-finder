@@ -1,7 +1,11 @@
-import Searchbar from "./Searchbar/Searchbar";
 import React from "react";
-import ImageGallery from "./ImageGallery/ImageGallery";
+
 import { getPhotoByName } from '../services/Api';
+import Searchbar from "./Searchbar/Searchbar";
+import ImageGallery from "./ImageGallery/ImageGallery";
+import Loader from "./Loader/Loader";
+import Button from "./Button/Button";
+import Modal from "./Modal/Modal";
 
 export class App extends React.Component {
 
@@ -47,12 +51,11 @@ export class App extends React.Component {
     return (
       <div
         style={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 40,
-          color: '#010101'
+
+          display: 'grid',
+          gridTemplateColumns: '1fr',
+          gridGap: 16,
+          paddingBottom: 24,
         }}>
         <Searchbar onSelectName={this.onSelectName} />
         {this.state.error.length > 0 && (
@@ -60,7 +63,10 @@ export class App extends React.Component {
             Upss, Some error occured... {this.state.error}
           </p>
         )}
-        <ImageGallery />
+        {this.state.isLoading && <Loader />}
+        <ImageGallery photos={this.state.photos} />
+        {this.state.photos.length && <Button />}
+        {<Modal />}
       </div>
     );
   }
