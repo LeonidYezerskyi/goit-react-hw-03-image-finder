@@ -4,7 +4,7 @@ import search from '../../images/search.svg';
 
 class Searchbar extends React.Component {
     state = {
-        name: ''
+        name: '',
     }
 
     onChange = e => {
@@ -12,7 +12,7 @@ class Searchbar extends React.Component {
         this.setState({ [name]: value });
     };
 
-    onSubmitForm = e => {
+    onSubmit = e => {
         e.preventDefault();
         this.props.onSelectName(this.state.name);
         this.reset();
@@ -29,7 +29,7 @@ class Searchbar extends React.Component {
 
         return (
             <header className={css.searchbar}>
-                <form className={css.searchForm} onSubmit={this.onSubmitForm}>
+                <form className={css.searchForm} onSubmit={this.onSubmit}>
                     <button type="submit" className={css.searchFormBtn}>
                         <img className={css.iconSearch} src={search} alt='icon' />
                         <span className={css.searchFormBtnLabel}>Search</span>
@@ -41,8 +41,9 @@ class Searchbar extends React.Component {
                         name="name"
                         value={name}
                         onChange={this.onChange}
-                        autocomplete="off"
-                        autofocus
+                        autoComplete="off"
+                        autoFocus
+                        required
                         placeholder="Search images and photos"
                     />
                 </form>

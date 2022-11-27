@@ -7,13 +7,14 @@ export class App extends React.Component {
 
   state = {
     name: '',
-    names: []
+    photos: [],
+    isLoading: false,
+    error: '',
   };
 
-  componentDidMount() {
-    const data = getPhotoByName();
-    this.setState({ names: data });
-  }
+  // componentDidMount() {
+  // 
+  // }
 
   componentDidUpdate(_, prevState) {
 
@@ -22,9 +23,9 @@ export class App extends React.Component {
         try {
           this.setState({ isLoading: true });
 
-          const data = await getPhotoByName(name);
+          const PhotoByName = await getPhotoByName(name);
 
-          this.setState({ names: [data] });
+          this.setState({ photos: [PhotoByName] });
         } catch (err) {
           this.setState({
             error: err.message,
@@ -53,7 +54,12 @@ export class App extends React.Component {
           fontSize: 40,
           color: '#010101'
         }}>
-        <Searchbar onSubmit={this.onSelectName} />
+        <Searchbar onSelectName={this.onSelectName} />
+        {this.state.error.length > 0 && (
+          <p>
+            Upss, Some error occured... {this.state.error}
+          </p>
+        )}
         <ImageGallery />
       </div>
     );
