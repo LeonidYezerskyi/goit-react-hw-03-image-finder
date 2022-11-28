@@ -1,10 +1,10 @@
 import React from 'react';
 import css from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ id, webformatURL, largeImageURL }) => {
+const ImageGalleryItem = ({ src, onClick, largeImageURL }) => {
     return (
-        <li className={css.imageGalleryItem} key={id}>
-            <img className={css.imageGalleryItemImage} src={webformatURL} src2={largeImageURL} alt="search word" />
+        <li className={css.imageGalleryItem} >
+            <img className={css.imageGalleryItemImage} onClick={() => onClick(largeImageURL)} src={src} alt="search word" />
         </li>
     )
 }

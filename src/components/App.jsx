@@ -14,22 +14,21 @@ export class App extends React.Component {
     photos: [],
     isLoading: false,
     error: '',
+    page: 1,
+    largeImage: '',
   };
-
-  // componentDidMount() {
-  // 
-  // }
 
   componentDidUpdate(_, prevState) {
 
-    if (prevState.name !== this.state.name) {
+    if (prevState.name !== this.state.name || prevState.page !== this.state.page) {
       const fetchPhotoByName = async name => {
         try {
           this.setState({ isLoading: true });
 
-          const PhotoByName = await getPhotoByName(name);
+          const photoByName = await getPhotoByName(name, this.state.page);
+          console.log(this.state.photos); console.log(photoByName)
 
-          this.setState({ photos: [PhotoByName] });
+          this.setState(prevState => ({ photos: [...prevState.photos, ...photoByName] }));
         } catch (err) {
           this.setState({
             error: err.message,
@@ -47,7 +46,16 @@ export class App extends React.Component {
     this.setState({ name: name });
   };
 
+  onClickBtn = () => {
+    this.setState({ page: this.state.page + 1 });
+  }
+
+  onClickImage = (src) => {
+    this.setState({ largeImage: src })
+  }
+
   render() {
+    console.log(this.state.page)
     return (
       <div
         style={{
@@ -64,9 +72,9 @@ export class App extends React.Component {
           </p>
         )}
         {this.state.isLoading && <Loader />}
-        <ImageGallery photos={this.state.photos} />
-        {this.state.photos.length && <Button />}
-        {<Modal />}
+        <ImageGallery photos={this.state.photos} onClick={this.onClickImage} />
+        {this.state.photos.length > 0 && <Button onClick={this.onClickBtn} />}
+        {!!this.state.largeImage.length && <Modal largeImage={this.state.largeImage} />}
       </div>
     );
   }
