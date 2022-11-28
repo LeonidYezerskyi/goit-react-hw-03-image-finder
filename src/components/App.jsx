@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { getPhotoByName } from '../services/Api';
 import Searchbar from "./Searchbar/Searchbar";
@@ -16,6 +17,24 @@ export class App extends React.Component {
     error: '',
     page: 1,
     largeImage: '',
+  };
+
+  static defaultProps = {
+    images: [],
+  };
+
+  static propTypes = {
+    images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  };
+
+  componentDidMount() {
+    window.addEventListener('keydown', this.closeModalByEscape);
+  }
+
+  closeModalByEscape = (event) => {
+    if (event.code === 'Escape') {
+      this.setState({ largeImage: '' });
+    }
   };
 
   componentDidUpdate(_, prevState) {
@@ -42,6 +61,10 @@ export class App extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.closeModalByEscape);
+  }
+
   onSelectName = name => {
     this.setState({ name: name });
   };
@@ -53,6 +76,11 @@ export class App extends React.Component {
   onClickImage = (src) => {
     this.setState({ largeImage: src })
   }
+
+  onCloseModal = () => {
+    this.setState({ largeImage: '' })
+  }
+
 
   render() {
     console.log(this.state.page)
@@ -74,7 +102,7 @@ export class App extends React.Component {
         {this.state.isLoading && <Loader />}
         <ImageGallery photos={this.state.photos} onClick={this.onClickImage} />
         {this.state.photos.length > 0 && <Button onClick={this.onClickBtn} />}
-        {!!this.state.largeImage.length && <Modal largeImage={this.state.largeImage} />}
+        {!!this.state.largeImage.length && <Modal onClose={this.onCloseModal} largeImage={this.state.largeImage} />}
       </div>
     );
   }

@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from "prop-types";
+
 import css from './Searchbar.module.css'
 import search from '../../images/search.svg';
 
@@ -6,6 +8,14 @@ class Searchbar extends React.Component {
     state = {
         name: '',
     }
+
+    static defaultProps = {
+        name: '',
+    };
+
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+    };
 
     onChange = e => {
         const { name, value } = e.target;
