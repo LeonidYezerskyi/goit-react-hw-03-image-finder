@@ -43,10 +43,7 @@ export class App extends React.Component {
       const fetchPhotoByName = async name => {
         try {
           this.setState({ isLoading: true });
-
           const photoByName = await getPhotoByName(name, this.state.page);
-          console.log(this.state.photos); console.log(photoByName)
-
           this.setState(prevState => ({ photos: [...prevState.photos, ...photoByName] }));
         } catch (err) {
           this.setState({
@@ -66,7 +63,7 @@ export class App extends React.Component {
   }
 
   onSelectName = name => {
-    this.setState({ name: name });
+    this.setState({ name: name, photos: [], page: 1 });
   };
 
   onClickBtn = () => {
