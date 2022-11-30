@@ -20,11 +20,11 @@ export class App extends React.Component {
   };
 
   static defaultProps = {
-    images: [],
+    photos: [],
   };
 
   static propTypes = {
-    images: PropTypes.arrayOf(PropTypes.object).isRequired,
+    photos: PropTypes.arrayOf(PropTypes.object).isRequired,
   };
 
   componentDidMount() {
